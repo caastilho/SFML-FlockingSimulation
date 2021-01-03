@@ -13,16 +13,16 @@ class Boid
 private:
     
     // Declare vectors
-    sf::Vector2f *acceleration, *velocity, *position;
+    sf::Vector2f acceleration, velocity, position;
     
     // Declare boid shape
     TriangleShape *shape;
     
     // Boids array
-    std::vector<Boid> *boids;
+    std::vector<Boid>* boids;
     
     // Canvas window
-    sf::RenderWindow *canvas;
+    sf::RenderWindow* canvas;
     int width, height;
     
     

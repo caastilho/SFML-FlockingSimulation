@@ -1,6 +1,4 @@
 #include <engine/shapes.hpp>
-#include <iostream>
-#define log(x) std::cout << x << "\n";
 
 
 // 'TriangleShape' methods

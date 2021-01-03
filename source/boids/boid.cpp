@@ -14,11 +14,11 @@ Boid::Boid(sf::RenderWindow* window, std::vector<Boid>* array): canvas(window)
     // Setup boid vectors
     position = getRandomVector(0, 1);
     velocity = getRandomVector(0, 1);
-    acceleration = new sf::Vector2f();
+    acceleration = sf::Vector2f();
     
     // Scale position
     sf::Vector2f scaler(width, height);
-    position = hadamard(position, &scaler);
+    position = hadamard(position, scaler);
     
     // Create boid shape
     shape = new TriangleShape(
@@ -42,11 +42,11 @@ void Boid::draw()
 void Boid::update()
 {
 
-    *position += *velocity;
-    *velocity += *acceleration;
+    position += velocity;
+    velocity += acceleration;
     //getAcceleration();
     
     // Update shape position
-    shape->setPosition(*position);
+    shape->setPosition(position);
     
 }

@@ -6,7 +6,7 @@
 class Canvas
 {
     
-    sf::RenderWindow* 
+    sf::RenderWindow*
     CANVAS_window;
     
     int 

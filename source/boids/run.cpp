@@ -31,7 +31,7 @@ void Canvas::Loop()
     CANVAS_window->clear();
     
     // Run boids objects
-    for (Boid boid : array) {
+    for (Boid& boid : array) {
         boid.update();
         boid.draw();
     }
