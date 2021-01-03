@@ -4,6 +4,7 @@
 #include <engine/vector.hpp>
 
 #include <vector>
+#include <cstdlib>
 
 
 // Boid class
@@ -17,6 +18,7 @@ private:
     
     // Declare boid shape
     TriangleShape *shape;
+    int boidSize = 12;
     
     // Boids array
     std::vector<Boid>* boids;
@@ -28,17 +30,21 @@ private:
     
     // Tune boids rules
     float tune_a = 0.3; 
-    float tune_c = 0.3; 
+    float tune_c = 0.35; 
     float tune_s = 0.3;
+    
+    float maxVelocity = 1.5;
+    float maxAcceleration = 3;
+    
     float range = 100;
     
     // Boids rules
     void adjustPosition();
     void getAcceleration();
     
-    void applyAlingment(sf::Vector2f& sum);
-    void applyCohesion(sf::Vector2f& sum);
-    void applySeparation(sf::Vector2f& sum);
+    void applyAlingment(sf::Vector2f& force, int amount);
+    void applyCohesion(sf::Vector2f& force, int amount);
+    void applySeparation(sf::Vector2f& force, int amount);
     
     
 public:

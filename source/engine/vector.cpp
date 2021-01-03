@@ -26,3 +26,44 @@ sf::Vector2f hadamard(sf::Vector2f& v1, sf::Vector2f& v2)
     return sf::Vector2f(x, y);
     
 }
+
+// Set vector magnitude
+sf::Vector2f setMagnitude(sf::Vector2f& source, float magnitude)
+{
+    
+    // Get new vector values
+    float current = getMagnitude(source);
+    float x = source.x * magnitude / current;
+    float y = source.y * magnitude / current;
+    
+    // Return vector
+    return sf::Vector2f(x, y);
+    
+}
+
+// Constrain vector values
+sf::Vector2f constrain(sf::Vector2f& source, float maximum) 
+{
+    float x = std::min(source.x, maximum);
+    float y = std::min(source.y, maximum);
+    return sf::Vector2f(x, y);
+}
+
+
+// Get distance between two vectors
+float getDistance(sf::Vector2f& v1, sf::Vector2f& v2)
+{
+    return sqrt(pow(v1.x - v2.x, 2) + pow(v1.y - v2.y, 2));
+}
+
+// Get vector magnitude
+float getMagnitude(sf::Vector2f& source)
+{
+    return sqrt(pow(source.x, 2) + pow(source.y, 2));
+}
+
+// Get angle from vector
+float getAngle(sf::Vector2f& source)
+{
+    return atan2(source.y, source.x) * 180/3.14159265;
+}

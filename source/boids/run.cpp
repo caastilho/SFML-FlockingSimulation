@@ -7,13 +7,13 @@
 
 
 std::vector<Boid> array;
-int amount = 1;
-
+int amount = 200;
 
 // Setup simulation environment 
 void Canvas::Setup()
 {
 
+    // Setup random seed
     srand(time(NULL));
     
     // Setup boid array
@@ -28,8 +28,8 @@ void Canvas::Loop()
 {
     
     // Clear canvas content
-    CANVAS_window->clear();
-    
+    CANVAS_window->clear(sf::Color(200, 200, 200));
+
     // Run boids objects
     for (Boid& boid : array) {
         boid.update();
