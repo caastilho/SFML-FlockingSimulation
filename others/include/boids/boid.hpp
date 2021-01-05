@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <cstdlib>
+#include <cmath>
 
 
 // Boid class
@@ -29,13 +30,15 @@ private:
     
     
     // Tune boids rules
-    float tune_a = 0.3; 
-    float tune_c = 0.35; 
-    float tune_s = 0.3;
+    float tune = 0.05;
+    float velocityLength = 1.5;
+    float maxAcceleration = 4;
     
-    float maxVelocity = 1.5;
-    float maxAcceleration = 3;
+    float tune_a = 0.28; 
+    float tune_c = 0.4; 
+    float tune_s = 0.32;
     
+    float fieldView = cos(3.14159265 / 2);
     float range = 100;
     
     // Boids rules
@@ -50,7 +53,7 @@ private:
 public:
     
     // Constructor method
-    Boid(sf::RenderWindow* window, std::vector<Boid>* array);
+    Boid(int x, int y, sf::RenderWindow* window, std::vector<Boid>* array);
     
     // Run boid environment
     void update();

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(FlockSimulation)
+project(FlockingSimulation)
 
 # Change output directory to bin
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")

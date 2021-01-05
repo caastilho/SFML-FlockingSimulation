@@ -7,7 +7,7 @@
 
 
 std::vector<Boid> array;
-int amount = 200;
+int amount = 150;
 
 // Setup simulation environment 
 void Canvas::Setup()
@@ -17,8 +17,13 @@ void Canvas::Setup()
     srand(time(NULL));
     
     // Setup boid array
-    for (int i = 0; i < amount; i++) 
-        array.push_back(Boid(CANVAS_window, &array));
+    for (int i = 0; i < amount; i++) {
+        int x = rand() % CANVAS_width;
+        int y = rand() % CANVAS_height;
+        Boid boid(x, y, CANVAS_window, &array);
+        
+        array.push_back(boid);
+    }
     
 }
 

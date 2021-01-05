@@ -50,6 +50,12 @@ sf::Vector2f constrain(sf::Vector2f& source, float maximum)
 }
 
 
+// Get the dot product of a vector
+float dot(sf::Vector2f& v1, sf::Vector2f& v2)
+{
+    return (v1.x * v2.x) + (v1.y * v2.y);
+}
+
 // Get distance between two vectors
 float getDistance(sf::Vector2f& v1, sf::Vector2f& v2)
 {
@@ -60,6 +66,13 @@ float getDistance(sf::Vector2f& v1, sf::Vector2f& v2)
 float getMagnitude(sf::Vector2f& source)
 {
     return sqrt(pow(source.x, 2) + pow(source.y, 2));
+}
+
+// Get angle between two vectors
+float getAngleBetween(sf::Vector2f& v1, sf::Vector2f& v2)
+{
+    float angle = (dot(v1, v2)) / (getMagnitude(v1) * getMagnitude(v2));
+    return angle;
 }
 
 // Get angle from vector

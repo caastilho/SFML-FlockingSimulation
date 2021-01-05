@@ -1,25 +1,23 @@
 #include "boids/boid.hpp"
+#include <iostream>
 #define map(v, min1, max1, min2, max2) min2+(max2-min2)*((v-min1)/(max1-min1));
+#define log(x) std::cout << x << "\n";
 
 
 // Construct boid environment
-Boid::Boid(sf::RenderWindow* window, std::vector<Boid>* array): canvas(window)
+Boid::Boid(int x, int y, sf::RenderWindow* window, std::vector<Boid>* array): canvas(window)
 {
     
     boids = array;
     
-    sf::Vector2u size = canvas->getSize();
+    sf::Vector2u size = window->getSize();
     width = size.x;
     height = size.y;
     
     // Setup boid vectors
-    position = getRandomVector(0, 1);
+    position = sf::Vector2f(x, y);
     velocity = getRandomVector(0, 1);
     acceleration = sf::Vector2f();
-    
-    // Scale position
-    sf::Vector2f scaler(width, height);
-    position = hadamard(position, scaler);
     
     // Create boid shape
     shape = new TriangleShape(
@@ -49,7 +47,7 @@ void Boid::draw()
 // Update boids vectors
 void Boid::update()
 {
-
+    
     position += velocity;
     velocity += acceleration;
     getAcceleration();
@@ -112,12 +110,19 @@ void Boid::getAcceleration()
         
         // Validate distance value
         if (&boid != this && distance <= range) {
-            amount++;
             
-            // Update vectors
-            velocitySum += boid.velocity;
-            positionSum += boid.position;
-            differenceSum += (position - boid.position) / distance;
+            // Get angle between
+            sf::Vector2f delta = boid.position - position;
+            float angle = getAngleBetween(velocity, delta);
+            
+            // Check if boid is in field of view
+            if (angle > fieldView) {
+                amount++;
+                
+                velocitySum += boid.velocity;
+                positionSum += boid.position;
+                differenceSum += (position - boid.position) / (float)pow(distance, 2);
+            }
         }
     }
     
@@ -126,7 +131,11 @@ void Boid::getAcceleration()
     applyCohesion(positionSum, amount);
     applySeparation(differenceSum, amount);
     
+    // Smooth acceleration
+    acceleration *= tune;
+    
 }
+
 
 void Boid::applyAlingment(sf::Vector2f& force, int amount)
 {
@@ -134,7 +143,7 @@ void Boid::applyAlingment(sf::Vector2f& force, int amount)
     // Tune alingment force
     if (amount > 0) {
         force /= (float)amount;
-        force = setMagnitude(force, maxVelocity);
+        force = setMagnitude(force, velocityLength);
         force -= velocity;
         force = constrain(force, maxAcceleration);
         force *= tune_a;
@@ -151,7 +160,7 @@ void Boid::applyCohesion(sf::Vector2f& force, int amount)
     if (amount > 0) {
         force /= (float)amount;
         force -= position;
-        force = setMagnitude(force, maxVelocity);
+        force = setMagnitude(force, velocityLength);
         force -= velocity;
         force = constrain(force, maxAcceleration);
         force *= tune_c;
@@ -167,7 +176,7 @@ void Boid::applySeparation(sf::Vector2f& force, int amount)
     // Tune separation force
     if (amount > 0) {
         force /= (float)amount;
-        force = setMagnitude(force, maxVelocity);
+        force = setMagnitude(force, velocityLength);
         force -= velocity;
         force = constrain(force, maxAcceleration);
         force *= tune_c;
